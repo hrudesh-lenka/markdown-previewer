@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import { marked } from 'marked';
+import PLACE_HOLDER from './placeholder';
 
 function App() {
+  const [text, setText] = useState(PLACE_HOLDER);
+  const inputText = (event) => {
+    setText(event.target.value);
+  } 
+  marked.setOptions({
+    breaks: true
+  });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <textarea id="editor" onChange={inputText} 
+        value={text}></textarea>
+
+        <div id='preview' dangerouslySetInnerHTML={{
+          __html: marked(text),
+          }}>
+        </div>
     </div>
   );
 }
